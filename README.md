@@ -1,2 +1,2 @@
-# memoriaJuego
-Juego Memoria dah!
+# "Memorice"
+Juego de Memoria ... dah!
