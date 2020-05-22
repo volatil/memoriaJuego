@@ -13,6 +13,11 @@
 <body>
 
 	<style type="text/css">
+		h1 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 30px;
+		}
 		#tablero {
 			width: 860px;
 			margin: 0 auto;
@@ -22,6 +27,9 @@
 			width: 170px;
 			display: inline-block;
 			cursor: pointer;
+		}
+		#tablero > div.comparando {
+			border: 3px solid blue;
 		}
 		#tablero > div > img {
 			width: 100%;
@@ -44,6 +52,7 @@
 			"https://i1.wp.com/clipset.20minutos.es/wp-content/uploads/2015/04/post-it-hero7.png?fit=618%2C600&ssl=1" ,
 		];
 
+		// INSERTA LAS CARTAS
 		var insertarCartas = function(){
 			for ( var count = 0; count < cantidad; count++ ){
 				$( "#tablero" ).append( "" +
@@ -55,6 +64,57 @@
 		};
 		insertarCartas();
 		insertarCartas();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		var match = function(){
+			var carta1 = $( $( "#tablero > div.comparando" )[0] ).find( "img" ).attr( "src" );
+			var carta2 = $( $( "#tablero > div.comparando" )[1] ).find( "img" ).attr( "src" );
+			if ( carta1 == carta2 ) {
+				return "si";
+			} else {
+				return "no";
+			};
+		};
+
+		var matchSi = function(){
+			$( "#tablero > div.comparando" ).remove();
+		};
+
+		var matchNo = function(){
+			$( "#tablero div.comparando" ).removeClass( "comparando" );
+		};
+
+		$( "#tablero > div" ).click(function(){
+			
+			$( this ).addClass( "comparando" );
+			var imagenNombre = $( this ).find( "img" ).attr( "src" );
+
+			setTimeout(function(){
+				if ( $( "#tablero > div.comparando" ).length >= 2 )	{
+					if ( match() == "si" ) {
+						matchSi();
+						alert( "Si son iguales" );
+					} else {
+						matchNo();
+						alert( "No son iguales" );
+					};
+				};		
+			},1000);
+			
+		});
 
 	</script>
 
