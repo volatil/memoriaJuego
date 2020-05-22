@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	
+	<title>Memorice</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css">
+	
+</head>
+<body>
+
+	<style type="text/css">
+		#tablero {
+			width: 860px;
+			margin: 0 auto;
+			border: 1px solid red;
+		}
+		#tablero > div {
+			width: 170px;
+			display: inline-block;
+			cursor: pointer;
+		}
+		#tablero > div > img {
+			width: 100%;
+		}
+	</style>
+
+	<h1>Memorice</h1>
+
+	<div id="tablero"></div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+	<script type="text/javascript">
+		var cantidad = 5;
+		var imagenes = [
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSwGJwTvJkqYMFCNJpXQW8Ob0L7vLxOu82Wjx8rgff7m8cT_sLQ&usqp=CAU" ,
+			"https://ih1.redbubble.net/image.150016870.7167/st,small,507x507-pad,600x600,f8f8f8.u1.jpg" ,
+			"https://ih0.redbubble.net/image.410588858.7894/ap,550x550,16x12,1,transparent,t.u1.png" ,
+			"https://i1.wp.com/clipset.20minutos.es/wp-content/uploads/2015/04/post-it-hero6.png" ,
+			"https://i1.wp.com/clipset.20minutos.es/wp-content/uploads/2015/04/post-it-hero7.png?fit=618%2C600&ssl=1" ,
+		];
+
+		var insertarCartas = function(){
+			for ( var count = 0; count < cantidad; count++ ){
+				$( "#tablero" ).append( "" +
+					"<div>" +
+						"<img src='" + imagenes[count] + "'>" +
+					"</div>" +
+				"" );
+			};
+		};
+		insertarCartas();
+		insertarCartas();
+
+	</script>
+
+</body>
+</html>
