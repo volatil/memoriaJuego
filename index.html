@@ -8,56 +8,116 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	
 	<link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css">
-	
-</head>
-<body>
-
-	<style type="text/css">
-		h1 {
-			text-align: center;
-			margin-top: 20px;
-			margin-bottom: 30px;
-		}
-		#tablero {
-			width: 860px;
-			margin: 0 auto;
-			border: 1px solid red;
-		}
-		#tablero > div {
-			width: 170px;
-			display: inline-block;
-			cursor: pointer;
-		}
-		#tablero > div.comparando {
-			border: 3px solid blue;
-		}
-		#tablero > div > img {
-			width: 100%;
-		}
-	</style>
-
-	<h1>Memorice</h1>
-
-	<div id="tablero"></div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+	<style type="text/css">
+		h1 {
+			position: relative;
+			bottom: -20px;
+			background: white;
+			width: 230px;
+			text-align: center;
+			padding-bottom: 10px;
+			margin: 0 auto;
+			line-height: 1.2em;
+			height: 50px;
+		}
+		#tablero ,
+		#tableroSort {
+			width: 920px;
+			margin: 0 auto;
+			border: 1px solid #ddd;
+			padding: 30px;
+		}
+		#tablero .flip-card ,
+		#tableroSort .flip-card {
+		  background-color: transparent;
+		  perspective: 1000px;
+			width: 150px;
+			height: 150px;
+			display: inline-block;
+			cursor: pointer;
+			margin: 10px;
+		}
+		#tablero .flip-card.verificado ,
+		#tableroSort .flip-card.verificado {
+			visibility: hidden;
+		}
+		#tablero .flip-card .flip-card-inner ,
+		#tableroSort .flip-card .flip-card-inner {
+		  position: relative;
+		  width: 100%;
+		  height: 100%;
+		  text-align: center;
+		  transition: transform 0.6s;
+		  transform-style: preserve-3d;
+		  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+		}
+		#tablero .flip-card .flip-card-inner > div > img ,
+		#tableroSort .flip-card .flip-card-inner > div > img {
+			width: 150px;
+			height: 150px;
+		}
+		#tablero .flip-card .flip-card-inner .flip-card-front,
+		#tableroSort .flip-card .flip-card-inner .flip-card-front, 
+		#tablero .flip-card .flip-card-inner .flip-card-back ,
+		#tableroSort .flip-card .flip-card-inner .flip-card-back {
+		  position: absolute;
+		  width: 100%;
+		  height: 100%;
+		  -webkit-backface-visibility: hidden;
+		  backface-visibility: hidden;
+		}
+		#tablero .flip-card-front ,
+		#tableroSort .flip-card-front {
+		  background-color: #bbb;
+		  color: black;
+		}
+		#tablero .flip-card-back ,
+		#tableroSort .flip-card-back {
+		  background-color: #2980b9;
+		  color: white;
+		  transform: rotateY(180deg);
+		}
+		#tablero .flip-card.vuelta .flip-card-inner ,
+		#tableroSort .flip-card.vuelta .flip-card-inner {
+		  transform: rotateY(180deg);
+		}
+	</style>
+
+</head>
+<body>
+
+
+	<h1>Memorice</h1>
+	<div id="tablero"></div>
+
 	<script type="text/javascript">
+
+		// CANTIDAD E IMAGENES
 		var cantidad = 5;
 		var imagenes = [
-			"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSwGJwTvJkqYMFCNJpXQW8Ob0L7vLxOu82Wjx8rgff7m8cT_sLQ&usqp=CAU" ,
-			"https://ih1.redbubble.net/image.150016870.7167/st,small,507x507-pad,600x600,f8f8f8.u1.jpg" ,
-			"https://ih0.redbubble.net/image.410588858.7894/ap,550x550,16x12,1,transparent,t.u1.png" ,
-			"https://i1.wp.com/clipset.20minutos.es/wp-content/uploads/2015/04/post-it-hero6.png" ,
-			"https://i1.wp.com/clipset.20minutos.es/wp-content/uploads/2015/04/post-it-hero7.png?fit=618%2C600&ssl=1" ,
+			"https://pm1.narvii.com/6465/e5a1ecb150248c9bbfc31431c4c09f0bafb28e97_00.jpg" ,
+			"https://www.todoappleblog.com/wp-content/uploads/2016/08/Farfetchd.jpg" ,
+			"https://i.pinimg.com/474x/0f/e0/5b/0fe05b4e579235015d469b71e6f7edc7.jpg" ,
+			"https://i.pinimg.com/originals/6c/fb/38/6cfb382cdcc352b896f4c347024becf9.png" ,
+			"https://media.vandal.net/m/11-2016/20161122125419_1.jpg" ,
 		];
 
 		// INSERTA LAS CARTAS
 		var insertarCartas = function(){
 			for ( var count = 0; count < cantidad; count++ ){
 				$( "#tablero" ).append( "" +
-					"<div>" +
-						"<img src='" + imagenes[count] + "'>" +
+					"<div class='flip-card'>" +
+						"<div class='flip-card-inner'>" +
+							"<div class='flip-card-front'>" +
+								"<img src='https://vignette.wikia.nocookie.net/mario/images/c/cc/Bloque_%3F_NSMB_Wii.png/revision/latest?cb=20130413152315&path-prefix=es'>" +
+							"</div>" +
+							"<div class='flip-card-back'>" +
+								"<img src='" + imagenes[count] + "'>" +
+							"</div>" +
+						"</div>" +
 					"</div>" +
 				"" );
 			};
@@ -65,36 +125,21 @@
 		insertarCartas();
 		insertarCartas();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+		// EFECTO VUELTA A LAS CARTAS
+		$( ".flip-card" ).click(function(){
+			if ( $( this ).attr( "class" ).includes( "vuelta" ) == false ) {
+				$( this ).addClass( "vuelta" );
+			};
+		});
 
 		var match = function(){
-			var carta1 = $( $( "#tablero > div.comparando" )[0] ).find( "img" ).attr( "src" );
-			var carta2 = $( $( "#tablero > div.comparando" )[1] ).find( "img" ).attr( "src" );
+			var carta1 = $( $( "#tablero > div.comparando" )[0] ).find( ".flip-card-back img" ).attr( "src" );
+			var carta2 = $( $( "#tablero > div.comparando" )[1] ).find( ".flip-card-back img" ).attr( "src" );
 			if ( carta1 == carta2 ) {
 				return "si";
 			} else {
 				return "no";
 			};
-		};
-
-		var matchSi = function(){
-			$( "#tablero > div.comparando" ).remove();
-		};
-
-		var matchNo = function(){
-			$( "#tablero div.comparando" ).removeClass( "comparando" );
 		};
 
 		$( "#tablero > div" ).click(function(){
@@ -105,16 +150,28 @@
 			setTimeout(function(){
 				if ( $( "#tablero > div.comparando" ).length >= 2 )	{
 					if ( match() == "si" ) {
-						matchSi();
-						alert( "Si son iguales" );
+						// Si MATCH
+						$( "#tablero > div.comparando" ).addClass( "verificado" );
+						$( "#tablero > div.comparando" ).removeClass( "comparando" );
 					} else {
-						matchNo();
-						alert( "No son iguales" );
+						// No MATCH
+						$( "#tablero div.comparando" ).removeClass( "comparando" ).removeClass( "vuelta" );
 					};
 				};		
 			},1000);
 			
 		});
+
+		for ( var count = 0; count <=  $( ".flip-card" ).length; count++ ) {
+			$( $( ".flip-card" )[count] ).attr( "data-sort" , count+1 );
+		};
+
+		var cartas = $(".flip-card");
+		for(var i = 0; i < cartas.length; i++){
+			var target = Math.floor(Math.random() * cartas.length -1) + 1;
+			var target2 = Math.floor(Math.random() * cartas.length -1) +1;
+			cartas.eq(target).before(cartas.eq(target2));
+		}
 
 	</script>
 
